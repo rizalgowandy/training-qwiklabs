@@ -17,5 +17,7 @@ sudo python3 -m pip install --upgrade pip
 sudo python3 -m pip install http://storage.googleapis.com/$MY_BUCKET/echo-0.0.1.tar.gz
 sudo gunicorn -b 0.0.0.0:80 -w 4 echo:app
 
+# change resources.metadata.value bucket url with your bucket
+
 cd ~/echolb/deployment-manager-examples || exit 1
 gcloud deployment-manager deployments create echo-service --config config.yaml
