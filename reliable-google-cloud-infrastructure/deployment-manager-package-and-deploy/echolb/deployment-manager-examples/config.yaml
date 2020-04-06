@@ -1,0 +1,17 @@
+# gcloud compute zones list
+
+imports:
+  - path: instance.jinja
+  - path: install-echo.sh
+    name: startup-script
+
+resources:
+  - name: instance
+    type: instance.jinja
+    properties:
+      zone: us-central1-a
+      tags:
+        - http
+      metadata:
+        - key: echo
+          value: https://storage.googleapis.com/qwiklabs-gcp-00-2a3b5067111c/echo-0.0.1.tar.gz
