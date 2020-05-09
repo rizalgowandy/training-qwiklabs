@@ -22,7 +22,7 @@ setup(
 
     # Dependent packages (distributions)
     install_requires=[
-        "flask==0.12.2",
+        "flask==1.0",
         "gunicorn"
     ]
 )
