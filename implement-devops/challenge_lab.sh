@@ -22,6 +22,11 @@ kubectl create ns production
 kubectl apply -f k8s/production -n production
 kubectl apply -f k8s/canary -n production
 kubectl apply -f k8s/services -n production
+
+kubectl create ns development
+kubectl apply -f k8s/dev -n development
+kubectl apply -f k8s/services -n development
+
 kubectl get svc
 kubectl get service gceme-frontend -n production
 git init
@@ -59,17 +64,12 @@ git push origin master
 # Back to Cloud Shell
 git checkout -b dev
 sed -i "s/1.0.0/2.0.0/g" main.go
-# change the version number to "2.0.0".
-# example: version string = "2.0.0" (in line 46)
 sed -i "s/blue/orange/g" html.go
-# change both lines that contains the word blue to orange
-# example: <div class="card orange"> (in line 37 and 81)
 
 # Back to Cloud Shell
 git add Jenkinsfile html.go main.go
 git commit -m "Version 2.0.0"
 git push origin dev
-# Check your sample-app branches from jenkins dashboard (dev branch)
 
 # Back to Cloud Shell
 curl http://localhost:8001/api/v1/namespaces/dev/services/gceme-frontend:80/proxy/version
@@ -78,7 +78,6 @@ git checkout -b canary
 git push origin canary
 git checkout master
 git push origin master
-# Check your sample-app branches from jenkins dashboard (canary branch)
 
 # Back to Cloud Shell
 export FRONTEND_SERVICE_IP=$(kubectl get -o \
@@ -86,11 +85,7 @@ jsonpath="{.status.loadBalancer.ingress[0].ip}" --namespace=production services 
 while true; do curl http://$FRONTEND_SERVICE_IP/version; sleep 1; done
 # after the you see output 2.0.0, run:
 kubectl get service gceme-frontend -n production
-# CHECK YOUR #2 #3 AND #4 CHECKPOINT (may be a delay)
-
-###############################################################################################
 
 # Note if task 4 not yet marked, try run:
 git merge canary
 git push origin master
-# may take a long delay before check progress
