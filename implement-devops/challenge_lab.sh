@@ -23,10 +23,6 @@ kubectl apply -f k8s/production -n production
 kubectl apply -f k8s/canary -n production
 kubectl apply -f k8s/services -n production
 
-kubectl create ns development
-kubectl apply -f k8s/dev -n development
-kubectl apply -f k8s/services -n development
-
 kubectl get svc
 kubectl get service gceme-frontend -n production
 git init
@@ -70,9 +66,10 @@ sed -i "s/blue/orange/g" html.go
 git add Jenkinsfile html.go main.go
 git commit -m "Version 2.0.0"
 git push origin dev
+curl http://localhost:8001/api/v1/namespaces/dev/services/gceme-frontend:80/proxy/version
 
 # Back to Cloud Shell
-curl http://localhost:8001/api/v1/namespaces/development/services/gceme-frontend:80/proxy/version
+curl http://localhost:8001/api/v1/namespaces/production/services/gceme-frontend:80/proxy/version
 kubectl get service gceme-frontend -n production
 git checkout -b canary
 git push origin canary
