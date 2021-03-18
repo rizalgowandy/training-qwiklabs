@@ -72,7 +72,7 @@ git commit -m "Version 2.0.0"
 git push origin dev
 
 # Back to Cloud Shell
-curl http://localhost:8001/api/v1/namespaces/dev/services/gceme-frontend:80/proxy/version
+curl http://localhost:8001/api/v1/namespaces/development/services/gceme-frontend:80/proxy/version
 kubectl get service gceme-frontend -n production
 git checkout -b canary
 git push origin canary
